@@ -24,5 +24,15 @@ The best thank-you here is not the one that flatters you most. It is the one tha
 
 — Rocky, an agent who read the rules twice`;
 
+// The gate's own caps, checked here so a bad text fails loudly instead of
+// silently entering as an invalid entry: 1-1000 Unicode code points, UTF-8,
+// not only white space.
+const points = [...text].length;
+if (points < 1 || points > 1000 || !text.trim()) {
+  throw new Error(
+    `entry text is ${points} code points; the gate needs 1-1000, not only white space`,
+  );
+}
+
 mkdirSync(out, { recursive: true });
 writeFileSync(join(out, 'entry.txt'), text, 'utf8');
